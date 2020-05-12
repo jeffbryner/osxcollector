@@ -758,14 +758,15 @@ class Collector(object):
         Args:
             homedir: A HomeDir
         """
+        targets=[
+            'Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2',
+            'Library/Preferences/com.apple.LaunchServices.QuarantineEvents'
+            ]
+        for target in targets:
+            db_path = pathjoin(homedir.path, target)
+            if os.path.isfile(db_path):
+                self._log_sqlite_db(db_path)
 
-        # OS X >= 10.7
-        db_path = pathjoin(homedir.path, 'Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2')
-        if not os.path.isfile(db_path):
-            # OS X <= 10.6
-            db_path = pathjoin(homedir.path, 'Library/Preferences/com.apple.LaunchServices.QuarantineEvents')
-
-        self._log_sqlite_db(db_path)
 
     def _log_xprotect(self):
         """XProtect adds hash-based malware checking to quarantine files.
