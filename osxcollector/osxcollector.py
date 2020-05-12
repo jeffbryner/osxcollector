@@ -1305,8 +1305,11 @@ class Collector(object):
 
     @_foreach_homedir
     def _collect_accounts_social_accounts(self, homedir):
-        user_accounts_path = pathjoin(homedir.path, 'Library/Accounts/Accounts3.sqlite')
-        self._log_sqlite_db(user_accounts_path)
+        targets=['Library/Accounts/Accounts4.sqlite','Library/Accounts/Accounts3.sqlite']
+        for target in targets:
+            user_accounts_path = pathjoin(homedir.path, target)
+            if os.path.isfile(user_accounts_path):
+                self._log_sqlite_db(user_accounts_path)
 
     @_foreach_homedir
     def _collect_accounts_recent_items(self, homedir):
