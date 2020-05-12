@@ -46,7 +46,7 @@ import macholib.MachO
 from xattr import getxattr
 
 
-__version__ = '1.12'
+__version__ = '1.13'
 
 ROOT_PATH = '/'
 """Global root path to build all further paths off of"""
@@ -1306,11 +1306,14 @@ class Collector(object):
 
     @_foreach_homedir
     def _collect_accounts_social_accounts(self, homedir):
-        targets=['Library/Accounts/Accounts4.sqlite','Library/Accounts/Accounts3.sqlite']
+        targets=[
+            'Library/Accounts/Accounts4.sqlite',
+            'Library/Accounts/Accounts3.sqlite'
+            ]
         for target in targets:
-            user_accounts_path = pathjoin(homedir.path, target)
-            if os.path.isfile(user_accounts_path):
-                self._log_sqlite_db(user_accounts_path)
+            db_path = pathjoin(homedir.path, target)
+            if os.path.isfile(db_path):
+                self._log_sqlite_db(db_path)
 
     @_foreach_homedir
     def _collect_accounts_recent_items(self, homedir):
